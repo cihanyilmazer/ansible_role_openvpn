@@ -1,0 +1,32 @@
+---
+- name: Set default all routed traffic policy
+  ufw:
+    direction: routed
+    policy: "{{ ovpn_ufw_default_route_policy }}"
+    comment: "{{ ovpn_ufw_default_route_policy }} all routed traffic by default"
+
+- name: Deny all routed traffic from untrusted interfaces
+  ufw:
+    rule: deny
+    route: true
+    interface_in: "{{ interface }}"
+    src: 0.0.0.0/0
+    dest: 0.0.0.0/0
+    comment: deny all routed traffic from untrusted interface
+    insert: 0
+    insert_relative_to: first-ipv4
+  with_items: "{{ ovpn_untrusted_interfaces }}"
+  loop_control:
+    loop_var: interface
+  when:
+    - ovpn_ufw_deny_routed_traffic_from_untrusted_interfaces
+    - ovpn_untrusted_interfaces|length > 0
+
+- name: Allow OpenVPN from client
+  ufw:
+    rule: allow
+    proto: udp
+    to_port: "{{ ovpn_server_service_port }}"
+    src: "{{ ovpn_server_client_ip_address }}"
+    interface_in: "{{ ovpn_server_public_interface }}"
+    comment: allow openvpn from {{ ovpn_server_client_alias }}

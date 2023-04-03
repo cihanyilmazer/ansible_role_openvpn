@@ -1,0 +1,10 @@
+#Client Config
+remote {{ ovpn_client_server_address }} {{ ovpn_client_server_service_port }}
+dev tun{{ ovpn_client_tunnel_number }}
+tun-mtu 1391
+ifconfig {{ ovpn_client_tunnel_local_address }} {{ ovpn_client_tunnel_remote_address }}
+secret tun{{ ovpn_client_tunnel_number }}.key
+keepalive 10 60
+ping-timer-rem
+persist-tun
+persist-key

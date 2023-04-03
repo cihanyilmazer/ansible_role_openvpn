@@ -1,0 +1,18 @@
+---
+# Server
+ovpn_mode: server
+ovpn_server_service_port: "119{{ ovpn_server_tunnel_number }}"
+# ovpn_server_tunnel_local_address: 192.168.100.{{ ovpn_server_tunnel_number|int * 2 -1 }}
+# ovpn_server_tunnel_remote_address: 192.168.100.{{ ovpn_server_tunnel_number|int * 2 }}
+ovpn_server_tunnel_key_download_path: "{{ lookup('env', 'HOME') }}/cynetwork_openvpn/tunnel_keys"
+ovpn_server_public_interface: "{{ ansible_default_ipv4['interface'] }}"
+# ovpn_server_tunnels:
+#   - tunnel_number: 1
+#     client_alias: client1
+#     client_source_ip_address: 192.168.64.10
+
+# UFW
+ovpn_ufw_default_route_policy: allow
+ovpn_ufw_deny_routed_traffic_from_untrusted_interfaces: true
+ovpn_untrusted_interfaces:
+  - "{{ ansible_default_ipv4['interface'] }}"

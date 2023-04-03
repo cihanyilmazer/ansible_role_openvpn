@@ -1,0 +1,18 @@
+---
+- name: Copy tun{{ ovpn_client_tunnel_number }}.conf to /etc/openvpn/client/
+  template:
+    src: config.j2
+    dest: /etc/openvpn/client/tun{{ ovpn_client_tunnel_number }}.conf
+  notify: restart openvpn-client@tun{{ ovpn_client_tunnel_number }}
+
+- name: Upload tun{{ ovpn_client_tunnel_number }}.key to /etc/openvpn/client/
+  copy:
+    src: "{{ ovpn_client_server_tunnel_key_local_path }}/{{ ovpn_client_server_hostname }}/tun{{ ovpn_client_server_tunnel_number }}.key"
+    dest: /etc/openvpn/client/tun{{ ovpn_client_tunnel_number }}.key
+  notify: restart openvpn-client@tun{{ ovpn_client_tunnel_number }}
+
+- name: Enable and start openvpn-client@tun{{ ovpn_client_tunnel_number }}
+  service:
+    name: openvpn-client@tun{{ ovpn_client_tunnel_number }}
+    enabled: yes
+    state: started

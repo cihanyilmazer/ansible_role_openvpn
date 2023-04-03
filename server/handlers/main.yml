@@ -1,0 +1,5 @@
+---
+- name: restart openvpn-server@tun{{ ovpn_server_tunnel_number }}
+  service:
+    name: openvpn-server@tun{{ ovpn_server_tunnel_number }}
+    state: restarted

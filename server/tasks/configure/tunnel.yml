@@ -1,0 +1,38 @@
+---
+- name: Copy tun{{ ovpn_server_tunnel_number }}.conf to /etc/openvpn/server/
+  template:
+    src: config.j2
+    dest: /etc/openvpn/server/tun{{ ovpn_server_tunnel_number }}.conf
+  notify: restart openvpn-server@tun{{ ovpn_server_tunnel_number }}
+
+- name: Upload tun{{ ovpn_server_tunnel_number }}.key to /etc/openvpn/server/
+  copy:
+    src: "{{ ovpn_server_tunnel_key_download_path }}/{{ inventory_hostname }}/tun{{ ovpn_server_tunnel_number }}.key"
+    dest: /etc/openvpn/server/tun{{ ovpn_server_tunnel_number }}.key
+  ignore_errors: True
+
+- name: Check tun{{ ovpn_server_tunnel_number }}.key at /etc/openvpn/server/
+  stat:
+    path: /etc/openvpn/server/tun{{ ovpn_server_tunnel_number }}.key
+  register: keyfile
+
+- name: Create tun{{ ovpn_server_tunnel_number }}.key at /etc/openvpn/server/
+  shell:
+    cmd: sudo openvpn --genkey --secret /etc/openvpn/server/tun{{ ovpn_server_tunnel_number }}.key
+  when:
+    - not keyfile.stat.exists
+  notify: restart openvpn-server@tun{{ ovpn_server_tunnel_number }}
+
+- name: Download tun{{ ovpn_server_tunnel_number }}.key from /etc/openvpn/server/
+  fetch:
+    src: /etc/openvpn/server/tun{{ ovpn_server_tunnel_number }}.key
+    dest: "{{ ovpn_server_tunnel_key_download_path }}/{{ inventory_hostname }}/tun{{ ovpn_server_tunnel_number }}.key"
+    flat: true
+  when:
+    - not keyfile.stat.exists
+
+- name: Enable and start openvpn-server@tun{{ ovpn_server_tunnel_number }}
+  service:
+    name: openvpn-server@tun{{ ovpn_server_tunnel_number }}
+    enabled: yes
+    state: started

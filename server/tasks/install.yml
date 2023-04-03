@@ -1,0 +1,6 @@
+---
+- name: Update cache and install OpenVPN
+  apt:
+    name: openvpn
+    state: latest
+    update_cache: yes

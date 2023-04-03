@@ -1,0 +1,9 @@
+---
+- name: Create iptables NAT chain
+  iptables:
+    table: nat
+    chain: POSTROUTING
+    out_interface: '{{ ovpn_server_public_interface }}'
+    source: 0.0.0.0/0
+    destination: 0.0.0.0/0
+    jump: MASQUERADE
