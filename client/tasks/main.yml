@@ -1,5 +1,3 @@
 ---
 - import_tasks: install.yml
-  tags: setup
 - import_tasks: configure.yml
-  tags: setup

@@ -1,9 +1,5 @@
 ---
  - import_tasks: install.yml
-   tags: setup
  - import_tasks: configure/tunnel.yml
-   tags: setup
  - import_tasks: configure/ufw.yml
-   tags: setup
  - import_tasks: configure/pat.yml
-   tags: setup
