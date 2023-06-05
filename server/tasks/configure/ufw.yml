@@ -21,12 +21,3 @@
   when:
     - ovpn_ufw_deny_routed_traffic_from_untrusted_interfaces
     - ovpn_untrusted_interfaces|length > 0
-
-- name: Allow OpenVPN from client
-  ufw:
-    rule: allow
-    proto: udp
-    to_port: "{{ ovpn_server_service_port }}"
-    src: "{{ ovpn_server_client_ip_address }}"
-    interface_in: "{{ ovpn_server_public_interface }}"
-    comment: allow openvpn from {{ ovpn_server_client_alias }}

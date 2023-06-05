@@ -1,3 +1,9 @@
 ---
 - import_tasks: install.yml
+  tags:
+    - openvpn-install
+    - never
 - import_tasks: configure.yml
+  tags:
+    - openvpn-client-configure
+    - never

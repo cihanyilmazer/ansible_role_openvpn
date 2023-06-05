@@ -1,5 +1,21 @@
 ---
  - import_tasks: install.yml
+   tags:
+     - openvpn
+     - openvpn-install
+     - never
  - import_tasks: configure/tunnel.yml
+   tags:
+     - openvpn
+     - openvpn-configure-tunnel
+     - never
  - import_tasks: configure/ufw.yml
+   tags:
+     - openvpn
+     - openvpn-enable-ufw
+     - never
  - import_tasks: configure/pat.yml
+   tags:
+     - openvpn
+     - openvpn-enable-pat
+     - never

@@ -36,3 +36,12 @@
     name: openvpn-server@tun{{ ovpn_server_tunnel_number }}
     enabled: yes
     state: started
+
+- name: Allow OpenVPN from client
+  ufw:
+    rule: allow
+    proto: udp
+    to_port: "{{ ovpn_server_service_port }}"
+    src: "{{ ovpn_server_client_ip_address }}"
+    interface_in: "{{ ovpn_server_public_interface }}"
+    comment: allow openvpn from {{ ovpn_server_client_alias }}

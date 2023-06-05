@@ -71,6 +71,17 @@ ansible-galaxy install cihanyilmazer.ansible_role_openvpn
       roles:
          - cihanyilmazer.ansible_role_openvpn/client
 
+Run with Custom Tags (at least one tag must be provided)
+- openvpn
+- openvpn-install
+- openvpn-configure-tunnel
+- openvpn-enable-ufw
+- openvpn-enable-pat
+
+```
+ansible-playbook -i hosts playbook.yml --tags initial --limit servers
+```
+
 License
 -------
 
