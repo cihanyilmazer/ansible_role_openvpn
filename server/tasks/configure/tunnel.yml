@@ -42,6 +42,7 @@
     rule: allow
     proto: udp
     to_port: "{{ ovpn_server_service_port }}"
-    src: "{{ ovpn_server_client_ip_address }}"
-    interface_in: "{{ ovpn_server_public_interface }}"
+    from_ip: "{{ ovpn_server_client_ip_address }}"
+    interface: "{{ ovpn_server_public_interface }}"
+    direction: in
     comment: allow openvpn from {{ ovpn_server_client_alias }}
