@@ -9,9 +9,10 @@
   ufw:
     rule: deny
     route: true
-    interface_in: "{{ interface }}"
-    src: 0.0.0.0/0
-    dest: 0.0.0.0/0
+    direction: in
+    interface: "{{ interface }}"
+    from_ip: 0.0.0.0/0
+    to_ip: 0.0.0.0/0
     comment: deny all routed traffic from untrusted interface
     insert: 0
     insert_relative_to: first-ipv4
